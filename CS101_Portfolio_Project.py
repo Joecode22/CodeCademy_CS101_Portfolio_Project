@@ -10,6 +10,7 @@ program on a publication of your choice!
 """
 import random
 
+
 class Deck:
     def __init__(self):
         self.suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
@@ -147,5 +148,4 @@ while play_flag == True:
     if input('would you like to play again Y or N?') == 'Y' and player_1.balance > 0:
         play_flag = True
     else:
-        print('You lost it all!')
-        play_flag = False
+        print(f'you exited the game and your balance is: {player_1.balance}')
