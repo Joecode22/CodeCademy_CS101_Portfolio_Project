@@ -10,7 +10,6 @@ program on a publication of your choice!
 """
 import random
 
-
 class Deck:
     def __init__(self):
         self.suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
