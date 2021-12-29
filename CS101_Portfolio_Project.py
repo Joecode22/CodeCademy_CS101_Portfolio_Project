@@ -147,4 +147,5 @@ while play_flag == True:
     if input('would you like to play again Y or N?') == 'Y' and player_1.balance > 0:
         play_flag = True
     else:
+        print('You lost it all!')
         play_flag = False
