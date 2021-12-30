@@ -149,3 +149,4 @@ while play_flag == True:
         play_flag = True
     else:
         print(f'you exited the game and your balance is: {player_1.balance}')
+        play_flag = False
