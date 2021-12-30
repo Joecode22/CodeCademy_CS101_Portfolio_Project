@@ -15,8 +15,6 @@ class Deck:
     def __init__(self):
         self.suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
         self.numbers = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
-        self.card_values = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10, 'Jack': 10,
-                            'Queen': 10, 'King': 10, 'Ace': 11}
         self.gen_deck = []
         for suit in self.suits:
             for number in self.numbers:
@@ -90,7 +88,19 @@ play_flag = True
 while play_flag == True:
     player_1.player_card_score = 0
     dealer.player_card_score = 0
-    bet_amount = (int(input(f'Your balance is {player_1.balance}\nHow much would you like to bet?\n')))
+    get_it_right = False
+    bet_input = input(f'Your balance is {player_1.balance}\nHow much would you like to bet?')
+
+    while get_it_right == False:
+        
+        if bet_input.isnumeric() == True:
+            bet_amount = int(bet_input)
+            if bet_amount > player_1.balance or bet_amount < 0:
+                bet_input = input('Please enter a vaid bet amount:\n')
+            else: 
+                get_it_right = True
+        else:
+            bet_input = input('Please enter a vaid bet amount:\n')
     player_1.place_a_bet(bet_amount)
 
     player_1.choose_a_card(deck.gen_deck)
@@ -127,8 +137,14 @@ while play_flag == True:
     def who_won(P1_score, D_Score, action):
         if P1_score > 21:
             print(f'You lose {bet_amount} dollars')
+        elif D_Score > 21 and P1_score < 21:
+            print(f'You win {bet_amount * 2} dollars')
+            player_1.win(bet_amount * 2)
+        elif D_Score > 21 and P1_score > 21:
+            print(f'Tie game - you keep {bet_amount} dollars')
+            player_1.win(bet_amount)
         elif action == 'Surrender':
-            print(f'You lose {player_1.bet_amount} dollars')
+            print(f'You lose {bet_amount} dollars')
         elif P1_score == 21:
             print(f'BlackJack, You Win! {bet_amount * 2} dollars')
             player_1.win(bet_amount * 2)
@@ -145,8 +161,19 @@ while play_flag == True:
     who_won(player_1.player_card_score, dealer.player_card_score, action)
     print(f'the score was {player_1.player_card_score} to {dealer.player_card_score}')
     print([player_1.balance])
-    if input('would you like to play again Y or N?') == 'Y' and player_1.balance > 0:
-        play_flag = True
-    else:
-        print(f'you exited the game and your balance is: {player_1.balance}')
-        play_flag = False
+    play_again = input('would you like to play again Y or N?')
+    correct_input_flag = False
+    while correct_input_flag == False:
+        if play_again.upper() == 'Y' and player_1.balance > 0:
+            play_flag = True
+            correct_input_flag = True
+        elif player_1.balance <= 0:
+            print('You are out of cash')
+            play_flag = False
+            correct_input_flag = True
+        elif play_again.upper() == 'N':
+            print(f'you exited the game and your balance is: {player_1.balance}')
+            play_flag = False
+            correct_input_flag = True
+        else:
+            play_again = input('Please enter Y or N')
